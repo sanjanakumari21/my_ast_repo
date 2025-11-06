@@ -1,7 +1,5 @@
 # Use AST Base image
-FROM checkmarx/ast-cli:2.3.36@sha256:bb2cc2dd3f24bf19f8a02aae8d71dd00bafa3eb13bffeb9e685e34302cb30af4
-
-# Docker actions must be run by the default Docker user (root).
+FROM checkmarx/ast-cli:2.3.36@sha256:bb2cc2dd3f24bf19f8a02aae8d7d1dd00baf3e8b...
 USER root
 
 # Copy the entrypoint script and properties used for the action
@@ -11,5 +9,13 @@ COPY cleanup.sh /app/cleanup.sh
 RUN chmod +x /app/entrypoint.sh \
     && chmod +x /app/cleanup.sh
 
+# --- Debug Section: Check environment before entrypoint runs ---
+RUN echo "=== Debug Info: Inside Docker build ===" && \
+    pwd && \
+    ls -la /app && \
+    echo "PATH: $PATH" && \
+    which ScaResolver || echo "ScaResolver not found in PATH" && \
+    echo "=== End Debug Info ==="
+# ------------------------------------------------------------
 
-HEALTHCHECK NONE
+HEALTHCHECK NON
